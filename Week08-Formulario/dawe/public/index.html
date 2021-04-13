@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="UTF-8" />
+	<title>HTML5 File Drag & Drop API</title>
+	<link rel="stylesheet" type="text/css" media="all" href="filedrag.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="text.css" />
+	</head>
+	<body>
+		<form id="upload" method="POST"  
+                            enctype="multipart/form-data">
+			<fieldset>
+				<legend>Datos del cliente</legend>
+
+				<div>
+					Nombre: 
+					<input type="text" id="nombre" name="nombre" 
+						placeholder="Introduce tu nombre" autofocus
+						required pattern="[A-Za-z0-9]{1,20}">
+					<br><br>Telefono:
+					<input type="tel" id="telefono" name="telefono" 
+						placeholder="Patron: 123-456-789" 
+						pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+						required>
+					<br><br>E-mail:                                   
+					<input type="email" id="email" name="email"
+						placeholder="Introduce tu dirección de correo electrónico"
+						required>
+				</div>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Libros</legend>
+
+				<div>
+					<input type="text" id="libro" name="libro" ondblclick="showDataList()" 
+					required pattern="[A-Za-z0-9]{1,20}">
+
+					<datalist id="defaultLibros">
+						<option value="Libro01">
+						<option value="Libro02">
+						<option value="Libro03">
+						<option value="Libro04">
+						<option value="Libro05">
+					</datalist>
+
+					Cantidad (Máx. 5): 
+					<input type="number" id="cantidad" name="cantidad" min="1" max="5" required>
+				</div>
+			</fieldset>
+			
+			<br>Elige los ficheros a subir: <input type="file" id="fileselect" name="fileselect" 
+			multiple required accept=".jpg,.png"/>
+			<div id="filedrag">arrastra aquí tus ficheros</div>
+
+			<br><input type="button" id="enviar" value="Enviar">
+		</form>
+		<script>
+			function showDataList(){
+				document.getElementById("libro").setAttribute('list', 'defaultLibros');
+			}
+		</script>
+		<h3>Mensajes de estado</h3>
+		<div id="messages"></div>
+		<script src="filedrag.js"></script>
+
+	</body>
+</html>

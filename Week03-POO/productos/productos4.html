@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"> 
+		<script>
+
+		 	function Libro(titulo, autor, precio)
+			{
+				this.titulo = titulo;
+				this.autor = autor;
+				this.precio = precio;
+				var _paginaActual = 0;
+
+
+				this.mostrar = function()
+				{
+					console.log("Soy el libro: " + this.titulo);
+				}
+
+				this.marcador = function(pagina)
+				{	
+					_paginaActual = pagina;
+					this.obtenerPagina();
+				}
+
+				this.pasarPagina = function()
+				{
+					_paginaActual++;
+				}
+				this.obtenerPagina = function()
+				{
+					console.log("Estoy en la página: " + _paginaActual);
+				}
+			}
+
+			var libro1 = new Libro("Dublinés", "Alfonso Zapico", 18);
+			var libro2 = new Libro("El arte de volar","Antonio Altarriba y Kim",20.90);
+
+		</script>
+	</head>
+	<body>
+
+	</body>
+</html>

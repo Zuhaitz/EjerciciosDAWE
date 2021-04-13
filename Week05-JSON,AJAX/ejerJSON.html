@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <script src="json-ajax.js"></script>
+        </head>
+        <body>
+                <section>
+                        <select id="combo" class="combo">
+                                <option value="" selected disabled hidden>Elige un codigo</option>
+                                <option value="isbn1">ISBN:9781491920497</option>
+                                <option value="isbn2">ISBN:1491910399</option>
+                                <option value="isbn3">ISBN:1491946008</option>
+                                <option value="isbn4">ISBN:1491978236</option>
+                                <option value="isbn5">ISBN:9781491906187</option>
+                        </select>
+
+                        <button id="boton" onclick="obtenerInfo()">Obtener datos del libro</button>
+                </section>
+                <section>
+                        <img id="portada">
+                        <h3 id="titulo"></h3>
+                        <h4 id="autor"></h4>
+                </section>
+        </body>
+</html>
