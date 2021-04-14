@@ -418,14 +418,17 @@ Tetris.prototype.key_pressed = function(e) {
 			break;
 		case 32:
 			//ESPACIO
-			var colocado = false;
-			for(var y = Tetris.BOARD_HEIGHT; y>0 && !colocado; y--){
+			var puede = true;
+			var ay = 0;
+			for(var y = 0; y<Tetris.BOARD_HEIGHT && puede; y++){
 				if (this.current_shape.can_move(this.board, 0, y)){
-					this.current_shape.move(0, y);
+					ay = y;
+				}else{
+					puede = false;
+					this.current_shape.move(0, ay);
 					this.board.add_shape(this.current_shape);
 					this.current_shape = this.create_new_shape()
 					this.board.draw_shape(this.current_shape);
-					colocado = true;
 				}
 			}
 			e.preventDefault();
