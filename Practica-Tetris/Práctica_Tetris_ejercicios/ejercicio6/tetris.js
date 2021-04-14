@@ -78,6 +78,8 @@ function Block (pos, color) {
 	// estos dos puntos.
 	// Sería interesante que emplearas las constantes Block.BLOCK_SIZE y Block.OUTLINE_WIDTH,
 	// para establecer la anchura del bloque y la anchura de la línea, respectivamente.
+	this.x = pos.x;
+	this.y = pos.y;
 	var p1 = new Point(pos.x * Block.BLOCK_SIZE + Block.OUTLINE_WIDTH/2, 
 						pos.y * Block.BLOCK_SIZE + Block.OUTLINE_WIDTH/2);
 	var p2 = new Point(p1.x + Block.BLOCK_SIZE - Block.OUTLINE_WIDTH/2, 
@@ -325,7 +327,7 @@ Board.prototype.add_shape = function(shape){
 		auxGrid[`${x},${y}`] = block;
 	});
 	this.grid = auxGrid;
-	console.log(this.grid);
+	//console.log(this.grid);
 }
 
 
@@ -412,6 +414,20 @@ Tetris.prototype.key_pressed = function(e) {
 			break;
 		case 38:
 			//ROTAR
+			e.preventDefault();
+			break;
+		case 32:
+			//ESPACIO
+			var colocado = false;
+			for(var y = Tetris.BOARD_HEIGHT; y>0 && !colocado; y--){
+				if (this.current_shape.can_move(this.board, 0, y)){
+					this.current_shape.move(0, y);
+					this.board.add_shape(this.current_shape);
+					this.current_shape = this.create_new_shape()
+					this.board.draw_shape(this.current_shape);
+					colocado = true;
+				}
+			}
 			e.preventDefault();
 			break;
 	}
