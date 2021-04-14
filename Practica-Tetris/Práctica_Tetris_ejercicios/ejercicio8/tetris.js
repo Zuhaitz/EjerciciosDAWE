@@ -443,10 +443,24 @@ Board.prototype.can_move = function(x,y){
 Board.prototype.is_row_complete = function(y){
 // TU CÓDIGO AQUÍ: comprueba si la línea que se le pasa como parámetro
 // es completa o no (se busca en el grid).
+	var linea = true;
+	for (var x=0; x<this.width && linea; x++){
+		linea = (`${x},${y}` in this.grid);
+	}
+	return linea;
 };
 
 Board.prototype.delete_row = function(y){
 // TU CÓDIGO AQUÍ: Borra del grid y de pantalla todos los bloques de la fila y 
+	for (var x=0; x<this.width; x++){
+		if (`${x},${y}` in this.grid){
+			var bloque = this.grid[`${x},${y}`];
+			bloque.erase();
+			delete this.grid[`${x},${y}`];
+		}
+	}
+	
+	
 };
 
 Board.prototype.move_down_rows = function(y_start){
@@ -460,6 +474,18 @@ Board.prototype.move_down_rows = function(y_start){
 //              mover el bloque hacia abajo
 //          
 //          meter el bloque en la nueva posición del grid
+	for (var ay=y_start; ay>=0; ay--){
+		for (var ax=0; ax<this.width; ax++){
+			if (`${ax},${ay}` in this.grid){
+				var bloque = this.grid[`${ax},${ay}`];
+				bloque.erase();
+				delete this.grid[`${ax},${ay}`];
+				bloque.move(0, 1);
+				this.grid[`${ax},${ay+1}`] = bloque;
+			}
+			
+		}
+	}
 };
 
 Board.prototype.remove_complete_rows = function(){
@@ -468,6 +494,14 @@ Board.prototype.remove_complete_rows = function(){
 //   si la fila y está completa
 //      borrar fila y
 //      mover hacia abajo las filas superiores (es decir, move_down_rows(y-1) )
+	for (var y=0;y<this.height; y++){
+		if (this.is_row_complete(y)){
+			console.log(`Fila ${y} completada!`);
+			this.delete_row(y);
+			this.move_down_rows(y-1);
+			y--;
+		}
+	}
 };
 
 
@@ -580,8 +614,10 @@ Tetris.prototype.do_move = function(direction) {
 		this.current_shape.move(dir[0], dir[1]);
 	}else if(direction=='Down'){
 		this.board.add_shape(this.current_shape);
+		this.board.remove_complete_rows();
 		this.current_shape = this.create_new_shape()
 		this.board.draw_shape(this.current_shape);
+		
 	}
 
 	/* Código que se pide en el EJERCICIO 6 */
