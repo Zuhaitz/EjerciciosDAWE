@@ -177,7 +177,6 @@ Shape.prototype.can_rotate = function(board) {
 		this.blocks.forEach( function(bloque) {
 			ax = centerX - dir * centerY + dir*bloque.y;
 			ay = centerY - dir * centerX + dir*bloque.x;
-			console.log(`${ax}, ${ay}`);
 			(bloque.can_move(board, ax-bloque.x, ay-bloque.y) && puede) ? null : puede = false;
 		});
 		
@@ -514,6 +513,8 @@ Tetris.prototype.init = function(){
 	// Pintar la pieza actual en el tablero
 	// Aclaración: (Board tiene un método para pintar)
 	this.board.draw_shape(this.current_shape);
+	
+	this.intervalId = setInterval(() => this.animate_shape(), 1000);
 
 }
 
@@ -564,6 +565,7 @@ Tetris.prototype.key_pressed = function(e) {
 	/* Introduce el código para realizar la rotación en el EJERCICIO 8. Es decir, al pulsar la flecha arriba, rotar la pieza actual */
 }
 
+
 Tetris.prototype.do_move = function(direction) {
 
 	// TU CÓDIGO AQUÍ: el usuario ha pulsado la tecla Left, Right o Down (izquierda,
@@ -594,6 +596,11 @@ Tetris.prototype.do_rotate = function(){
 	if (this.current_shape.can_rotate(this.board))
 		this.current_shape.rotate();
 }
+
+Tetris.prototype.animate_shape = function(){
+	this.do_move('Down');
+}
+
 
 
 
