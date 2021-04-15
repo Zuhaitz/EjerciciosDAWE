@@ -589,6 +589,7 @@ Tetris.prototype.key_pressed = function(e) {
 					puede = false;
 					this.current_shape.move(0, ay);
 					this.board.add_shape(this.current_shape);
+					this.board.remove_complete_rows();
 					this.current_shape = this.create_new_shape()
 					this.board.draw_shape(this.current_shape);
 				}
