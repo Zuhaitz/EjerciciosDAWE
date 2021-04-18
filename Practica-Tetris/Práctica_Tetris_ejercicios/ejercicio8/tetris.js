@@ -386,6 +386,7 @@ function Board(width, height) {
 	this.width = width;
 	this.height = height;
 	this.grid = {}; /* 6. Estructura de datos introducida en el EJERCICIO 6 */
+	this.game_end = false; /* 13. Añadido para bloquear el control */
 }
 
 
@@ -504,6 +505,22 @@ Board.prototype.remove_complete_rows = function(){
 	}
 };
 
+Board.prototype.game_over = function(intervalId) {
+	clearInterval(intervalId);
+	this.game_end = true;
+	
+	ctx.textBaseline = "middle";
+	ctx.textAlign = "center";
+	ctx.fillStyle = "black";
+	ctx.font = "40px sans-serif";
+	ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2);
+}
+
+
+Board.prototype.is_game_over = function() {
+	return this.game_end;
+}
+
 
 // ==================== Tetris ==========================
 
@@ -560,42 +577,45 @@ Tetris.prototype.key_pressed = function(e) {
 	// en la variable key se guardará el código ASCII de la tecla que
 	// ha pulsado el usuario. ¿Cuál es el código key que corresponde 
 	// a mover la pieza hacia la izquierda, la derecha, abajo o a rotarla?
-	switch (key) {
-		case 37:
-			this.do_move('Left');
-			e.preventDefault();
-			break;
-		case 39:
-			this.do_move('Right');
-			e.preventDefault();
-			break;
-		case 40:
-			this.do_move('Down');
-			e.preventDefault();
-			break;
-		case 38:
-			//ROTAR
-			this.do_rotate();
-			e.preventDefault();
-			break;
-		case 32:
-			//ESPACIO
-			var puede = true;
-			var ay = 0;
-			for(var y = 0; y<Tetris.BOARD_HEIGHT && puede; y++){
-				if (this.current_shape.can_move(this.board, 0, y)){
-					ay = y;
-				}else{
-					puede = false;
-					this.current_shape.move(0, ay);
-					this.board.add_shape(this.current_shape);
-					this.board.remove_complete_rows();
-					this.current_shape = this.create_new_shape()
-					this.board.draw_shape(this.current_shape);
+	if (!this.board.game_end){
+		switch (key) {
+			case 37:
+				this.do_move('Left');
+				e.preventDefault();
+				break;
+			case 39:
+				this.do_move('Right');
+				e.preventDefault();
+				break;
+			case 40:
+				this.do_move('Down');
+				e.preventDefault();
+				break;
+			case 38:
+				//ROTAR
+				this.do_rotate();
+				e.preventDefault();
+				break;
+			case 32:
+				//ESPACIO
+				var puede = true;
+				var ay = 0;
+				for(var y = 0; y<Tetris.BOARD_HEIGHT && puede; y++){
+					if (this.current_shape.can_move(this.board, 0, y)){
+						ay = y;
+					}else{
+						puede = false;
+						this.current_shape.move(0, ay);
+						this.board.add_shape(this.current_shape);
+						this.board.remove_complete_rows();
+						this.current_shape = this.create_new_shape()
+						if (!this.board.draw_shape(this.current_shape))
+							this.board.game_over(this.intervalId);
+					}
 				}
-			}
-			e.preventDefault();
-			break;
+				e.preventDefault();
+				break;
+		}
 	}
 	/* Introduce el código para realizar la rotación en el EJERCICIO 8. Es decir, al pulsar la flecha arriba, rotar la pieza actual */
 }
@@ -617,7 +637,8 @@ Tetris.prototype.do_move = function(direction) {
 		this.board.add_shape(this.current_shape);
 		this.board.remove_complete_rows();
 		this.current_shape = this.create_new_shape()
-		this.board.draw_shape(this.current_shape);
+		if (!this.board.draw_shape(this.current_shape))
+			this.board.game_over(this.intervalId);
 		
 	}
 
