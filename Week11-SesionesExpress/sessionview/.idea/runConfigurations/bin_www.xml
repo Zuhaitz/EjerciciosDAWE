@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="bin\www" type="NodeJSConfigurationType" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
+    <envs>
+      <env name="DEBUG" value="sessionview:*" />
+      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="C:\Users\StromValhalla\Desktop\Asignaturas\4-Cuarto\DAWE\Week11-SesionesExpress\dawe2020-e7c45-firebase-adminsdk-4i9d7-c1de33ac80.json" />
+    </envs>
+    <EXTENSION ID="com.jetbrains.nodejs.run.NodeJSStartBrowserRunConfigurationExtension">
+      <browser url="http://localhost:3000/" />
+    </EXTENSION>
+    <method v="2" />
+  </configuration>
+</component>
