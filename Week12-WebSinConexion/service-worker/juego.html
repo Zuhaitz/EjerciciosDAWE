@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Damas inglesas</title>
+<script src="juego.js"></script>
+</head>
+<body>
+<h1>Damas inglesas</h1>
+<p id="movimientos">Movimientos: <span id="count">0</span></p>
+<canvas id="lienzo" width="600" height="300"></canvas>
+<script>
+  iniciarJuego(document.getElementById('lienzo'), document.getElementById('count'));
+
+  /*const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var offline = urlParams.get('offline');
+  if (offline != null){
+      document.getElementById('offline').innerText = "<p style=\"color:#FF0000\";>Red paragraph text</p>"
+  }*/
+</script>
+<script>
+    // Register the service worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+        });
+    }
+</script>
+</body>
+</html>
+
