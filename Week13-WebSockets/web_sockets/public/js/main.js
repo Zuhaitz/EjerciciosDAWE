@@ -15,6 +15,7 @@ window.onload = function(){
 
 
 function avisoKey (tecla) {
+        console.log("Se lanzo un evento");
         switch(tecla.code){
                 case 'ArrowUp':
                         y>0 ? actualizar(x, --y) : null;
